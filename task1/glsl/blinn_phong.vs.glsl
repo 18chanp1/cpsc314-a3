@@ -14,4 +14,9 @@ void main() {
     // variable should be defined with respect to
 
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+
+    //q1a
+    viewPosition = (viewMatrix * modelMatrix * vec4(position, 1.0)).xyz;
+    worldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
+    interpolatedNormal = normalMatrix * normal;
 }
