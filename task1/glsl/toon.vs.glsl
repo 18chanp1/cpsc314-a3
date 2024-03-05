@@ -17,4 +17,11 @@ void main() {
     // of the model or not and set `fresnel` appropriately.
 
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+
+    //q1b
+    interpolatedNormal = normalize(normalMatrix * normal);
+    lightDirection = normalize(spherePosition - position);
+    viewPosition = vec3(viewMatrix * modelMatrix * vec4(position, 1.0));
+    fresnel = dot(normalize(-viewPosition), interpolatedNormal);
+
 }
