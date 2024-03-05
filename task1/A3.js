@@ -121,7 +121,7 @@ const shaders = {
   PBR: { key: 3, material: helmetPBRMaterial },
 };
 
-let mode = shaders.TOON.key; // Default
+let mode = shaders.DOTS.key; // Default
 
 // Set up scenes
 let scenes = [];
