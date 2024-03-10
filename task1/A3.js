@@ -80,12 +80,47 @@ helmetAlbedoMap.wrapT = 1000;
 // TODO: implement helmetMetalRoughnessMap, helmetEmissiveMap, helmetNormalMap, helmetAOMap
 // similarly to how helmetAlbedoMap is implemented
 
+/* q1d */
+const helmetMetalRoughnessMap = new THREE.TextureLoader().load( 'gltf/Default_metalRoughness.jpg' );
+helmetMetalRoughnessMap.colorSpace = THREE.SRGBColorSpace
+helmetMetalRoughnessMap.flipY = false;
+helmetMetalRoughnessMap.wrapS = 1000;
+helmetMetalRoughnessMap.wrapT = 1000;
+
+const helmetEmissiveMap = new THREE.TextureLoader().load( 'gltf/Default_emissive.jpg' );
+helmetEmissiveMap.colorSpace = THREE.SRGBColorSpace
+helmetEmissiveMap.flipY = false;
+helmetEmissiveMap.wrapS = 1000;
+helmetEmissiveMap.wrapT = 1000;
+
+const helmetNormalMap = new THREE.TextureLoader().load( 'gltf/Default_normal.jpg' );
+helmetNormalMap.colorSpace = THREE.SRGBColorSpace
+helmetNormalMap.flipY = false;
+helmetNormalMap.wrapS = 1000;
+helmetNormalMap.wrapT = 1000;
+
+const helmetAOMap = new THREE.TextureLoader().load( 'gltf/Default_ao.jpg' );
+helmetAOMap.colorSpace = THREE.SRGBColorSpace
+helmetAOMap.flipY = false;
+helmetAOMap.wrapS = 1000;
+helmetAOMap.wrapT = 1000;
+
 const helmetPBRMaterial = new THREE.MeshStandardMaterial({
   // TODO: pass texture maps to the material. Note that
   // both metalnessMap and roughnessMap should be set to the same
   // texture map
+  "aoMap": helmetAOMap,
+  "normalMap": helmetNormalMap,
+  "emissiveMap": helmetEmissiveMap,
+  "roughnessMap": helmetMetalRoughnessMap,
+  "metalnessMap": helmetMetalRoughnessMap,
+  "map": helmetAlbedoMap,
 });
 // TODO: set the material's emissive color and metalness
+
+helmetPBRMaterial.emissive = new THREE.Color(0.0, 0.0, 255.0);
+helmetPBRMaterial.metalness = 0.9;
+
 
 // Load shaders
 const shaderFiles = [
@@ -121,7 +156,7 @@ const shaders = {
   PBR: { key: 3, material: helmetPBRMaterial },
 };
 
-let mode = shaders.DOTS.key; // Default
+let mode = shaders.TOON.key; // Default
 
 // Set up scenes
 let scenes = [];

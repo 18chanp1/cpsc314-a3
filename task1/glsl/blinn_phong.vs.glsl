@@ -18,5 +18,5 @@ void main() {
     //q1a
     viewPosition = (viewMatrix * modelMatrix * vec4(position, 1.0)).xyz;
     worldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
-    interpolatedNormal = normalMatrix * normal;
+    interpolatedNormal = (inverse(transpose(modelMatrix)) * vec4(normal, 0.0)).xyz;
 }
