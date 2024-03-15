@@ -27,13 +27,14 @@ const toonColor = { type: 'c', value: new THREE.Color(1.0, 0.8, 0.4) };
 const toonColor2 = { type: 'c', value: new THREE.Color(0.8, 0.1, 0.35) };
 const outlineColor = { type: 'c', value: new THREE.Color(0.0, 0.0, 0.0) };
 
-const kAmbient = { type: "f", value: 0.3 };
+const kAmbient = { type: "f", value: 0.5 };
 const kDiffuse = { type: "f", value: 0.6 };
 const kSpecular = { type: "f", value: 1.0 };
 const shininess = { type: "f", value: 50.0 };
 const ticks = { type: "f", value: 0.0 };
 
 const sphereLight = new THREE.PointLight(0xffffff, 200);
+const sunny = new THREE.PointLight(0xffffff, 200);
 
 
 // Shader materials
@@ -121,7 +122,6 @@ const helmetPBRMaterial = new THREE.MeshStandardMaterial({
 helmetPBRMaterial.emissive = new THREE.Color(0.0, 0.0, 255.0);
 helmetPBRMaterial.metalness = 0.9;
 
-//setup skybox pt2
 
 
 // Load shaders
@@ -174,6 +174,19 @@ for (let shader of Object.values(shaders)) {
   sphere.parent = worldFrame;
   scene.add(sphere);
 
+  const loader = new THREE.CubeTextureLoader();
+  const texture = loader.load([
+    'skybox/posx.jpeg',
+    'skybox/negx.jpeg',
+    'skybox/posy.jpeg',
+    'skybox/negy.jpeg',
+    'skybox/posz.jpeg',
+    'skybox/negz.jpeg',
+  ]);
+  scene.background = texture;
+
+
+  
   // Load both the armadillo and the helmet, for scene key 4.
   if(shader.material == helmetPBRMaterial){
     
@@ -197,6 +210,9 @@ for (let shader of Object.values(shaders)) {
 
     sphereLight.parent = worldFrame;
     scene.add(sphereLight);
+
+    sunny.parent = worldFrame;
+    scene.add(sunny);
 
   } else{
     // If there's no helmet, then only place the armadillo. i.e. key 1, 2, 3
@@ -243,6 +259,7 @@ function checkKeyboard() {
     spherePosition.value.y += 0.3;
 
   sphereLight.position.set(spherePosition.value.x, spherePosition.value.y, spherePosition.value.z);
+  sunny.position.set(0,0,0);
 
   // The following tells three.js that some uniforms might have changed
   sphereMaterial.needsUpdate = true;
